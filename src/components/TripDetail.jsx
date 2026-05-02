@@ -3,9 +3,9 @@ import { supabase } from '../lib/supabase'
 
 const MONTHS = ['June', 'July', 'August', 'September', 'October']
 const INTEREST_CONFIG = {
-  yes:   { label: 'I\'m in!',    color: 'var(--yes)',   bg: 'var(--yes-bg)',   emoji: '✓' },
-  maybe: { label: 'Maybe',       color: 'var(--maybe)', bg: 'var(--maybe-bg)', emoji: '~' },
-  no:    { label: 'Not for me',  color: 'var(--no)',    bg: 'var(--no-bg)',    emoji: '✕' },
+  yes:   { label: "I'm in!",    color: 'var(--yes)',   bg: 'var(--yes-bg)'   },
+  maybe: { label: 'Maybe',      color: 'var(--maybe)', bg: 'var(--maybe-bg)' },
+  no:    { label: 'Not for me', color: 'var(--no)',    bg: 'var(--no-bg)'    },
 }
 
 export default function TripDetail({ trip, userName, onBack, onRefresh }) {
@@ -52,7 +52,7 @@ export default function TripDetail({ trip, userName, onBack, onRefresh }) {
         onClick={onBack}
         style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: 13, marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}
       >
-        ← All trips
+        Back to all trips
       </button>
 
       <div style={{ marginBottom: '2rem' }}>
@@ -69,23 +69,13 @@ export default function TripDetail({ trip, userName, onBack, onRefresh }) {
       </div>
 
       {total > 0 && (
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 12,
-          marginBottom: '2rem',
-        }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: '2rem' }}>
           {[
-            { label: 'In', count: yes.length, color: 'var(--yes)', bg: 'var(--yes-bg)' },
+            { label: 'In',    count: yes.length,   color: 'var(--yes)',   bg: 'var(--yes-bg)'   },
             { label: 'Maybe', count: maybe.length, color: 'var(--maybe)', bg: 'var(--maybe-bg)' },
-            { label: 'Out', count: no.length, color: 'var(--no)', bg: 'var(--no-bg)' },
+            { label: 'Out',   count: no.length,    color: 'var(--no)',    bg: 'var(--no-bg)'    },
           ].map(s => (
-            <div key={s.label} style={{
-              background: s.bg,
-              borderRadius: 'var(--radius)',
-              padding: '1rem',
-              textAlign: 'center',
-            }}>
+            <div key={s.label} style={{ background: s.bg, borderRadius: 'var(--radius)', padding: '1rem', textAlign: 'center' }}>
               <div style={{ fontSize: 28, fontWeight: 600, color: s.color }}>{s.count}</div>
               <div style={{ fontSize: 12, color: s.color, fontWeight: 500 }}>{s.label}</div>
             </div>
@@ -93,14 +83,7 @@ export default function TripDetail({ trip, userName, onBack, onRefresh }) {
         </div>
       )}
 
-      <div style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border)',
-        borderRadius: 'var(--radius)',
-        padding: '1.5rem',
-        marginBottom: '2rem',
-        boxShadow: 'var(--shadow)',
-      }}>
+      <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1.5rem', marginBottom: '2rem', boxShadow: 'var(--shadow)' }}>
         <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: '1rem' }}>
           {myResponse ? 'Update your response' : 'Are you in?'}
         </h3>
@@ -174,13 +157,49 @@ export default function TripDetail({ trip, userName, onBack, onRefresh }) {
             {saving ? 'Saving...' : myResponse ? 'Update' : 'Submit response'}
           </button>
           {saved && (
-            <span style={{ fontSize: 13, color: 'var(--yes)', fontWeight: 500 }}>
-              ✓ Saved!
-            </span>
+            <span style={{ fontSize: 13, color: 'var(--yes)', fontWeight: 500 }}>Saved!</span>
           )}
         </div>
       </div>
 
       {topMonths.length > 0 && (
         <div style={{ marginBottom: '2rem' }}>
-          <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 
+          <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 12 }}>Best months (by availability)</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {topMonths.map(m => (
+              <span key={m} style={{ padding: '6px 14px', borderRadius: 20, background: 'var(--bg-subtle)', fontSize: 13, color: 'var(--text)', fontWeight: 500 }}>
+                {m} <span style={{ color: 'var(--text-faint)', fontWeight: 400 }}>({monthCounts[m]})</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {total > 0 && (
+        <div>
+          <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 12 }}>All responses</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {responses.map(r => {
+              const cfg = INTEREST_CONFIG[r.interest]
+              return (
+                <div key={r.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', fontSize: 14 }}>
+                  <div>
+                    <span style={{ fontWeight: 500 }}>{r.user_name}</span>
+                    {r.months?.length > 0 && (
+                      <span style={{ fontSize: 12, color: 'var(--text-faint)', marginLeft: 8 }}>
+                        {r.months.join(', ')}
+                      </span>
+                    )}
+                  </div>
+                  <span style={{ padding: '3px 10px', borderRadius: 12, background: cfg.bg, color: cfg.color, fontSize: 12, fontWeight: 500 }}>
+                    {cfg.label}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
