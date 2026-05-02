@@ -1,0 +1,49 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #faf9f6;
+  --bg-card: #ffffff;
+  --bg-subtle: #f3f1ec;
+  --text: #1a1916;
+  --text-muted: #6b6860;
+  --text-faint: #a09e99;
+  --border: rgba(26, 25, 22, 0.1);
+  --border-strong: rgba(26, 25, 22, 0.2);
+  --accent: #d4570a;
+  --accent-light: #fdf0e8;
+  --yes: #2d6a4f;
+  --yes-bg: #e8f5ee;
+  --maybe: #b5590a;
+  --maybe-bg: #fdf0e8;
+  --no: #9b2335;
+  --no-bg: #fdeaed;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 8px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.08);
+  font-family: 'DM Sans', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, textarea, select {
+  font-family: inherit;
+}
+
+.serif {
+  font-family: 'DM Serif Display', serif;
+}
